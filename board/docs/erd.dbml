@@ -1,0 +1,77 @@
+Table user {
+  id bigint [pk]
+  username varchar(30)
+  password varchar(50)
+  email varchar(30)
+  nickname varchar(20)
+  role varchar(10)
+  status varchar(10)
+  created_at datetime
+  created_by varchar(30)
+  modified_at datetime
+  modified_by varchar(30)
+}
+
+Table board {
+  id bigint [pk]
+  name varchar(30)
+  description text(50)
+  created_at datetime
+  created_by varchar(30)
+  modified_at datetime
+  modified_by varchar(30)
+}
+
+Table post {
+  id bigint [pk]
+  board_id bigint [ref: > board.id]
+  user_id bigint [ref: > user.id]
+  title varchar(50)
+  content text
+  view_count int
+  like_count int
+  is_notice boolean
+  is_deleted boolean
+  created_at datetime
+  created_by varchar(30)
+  modified_at datetime
+  modified_by varchar(30)
+}
+
+Table comment {
+  id bigint [pk]
+  post_id bigint [ref: > post.id]
+  user_id bigint [ref: > user.id]
+  parent_comment_id bigint [ref: - comment.id]
+  content text
+  is_deleted boolean
+  created_at datetime
+  created_by varchar(30)
+  modified_at datetime
+  modified_by varchar(30)
+}
+
+Table menu {
+  id bigint [pk]
+  parent_id bigint [ref: - menu.id]
+  name varchar(10)
+  sort_order int
+  is_visible boolean
+  created_at datetime
+  created_by varchar(30)
+  modified_at datetime
+  modified_by varchar(30)
+}
+
+Table program {
+  id bigint [pk]
+  name varchar(20)
+  url varchar(25)
+  method varchar(10)
+  description text
+}
+
+Table menu_program {
+  menu_id bigint [ref: > menu.id]
+  program_id bigint [ref: > program.id]
+}
