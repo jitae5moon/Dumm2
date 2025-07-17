@@ -30,7 +30,7 @@ class PostServiceTest {
     void givenMultiplePostsWhenGettingAllPostsThenReturnsPageList() {
         // Given
         for (int i = 0; i < 35; i++) {
-            postService.savePost(new PostRequestDto("Test title " + i, "Test content " + i, false));
+            postService.savePost(new PostRequestDto(null, "Test title " + i, "Test content " + i, false));
         }
         Pageable pageable = PageRequest.of(0, 10, Sort.by("modifiedDate").descending());
 
@@ -82,7 +82,7 @@ class PostServiceTest {
         // Given
         PostRequestDto requestDto = createPostRequestDto();
         Long id = postService.savePost(requestDto);
-        PostRequestDto updateRequestDto = new PostRequestDto("Updated test title", "Updated test content", false);
+        PostRequestDto updateRequestDto = new PostRequestDto(id, "Updated test title", "Updated test content", false);
 
         // When
         postService.updatePost(id, updateRequestDto);
@@ -108,7 +108,7 @@ class PostServiceTest {
     }
 
     private PostRequestDto createPostRequestDto() {
-        return new PostRequestDto("Test title",
+        return new PostRequestDto( null, "Test title",
                 "Test content",
                 false);
     }

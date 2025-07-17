@@ -71,6 +71,16 @@ class PostControllerTest {
     }
 
     @Test
+    void givenEmptyParamsWhenSavingPostThenReturnsSaveFormPage() throws Exception {
+        mockMvc.perform(post("/admin/posts/save")
+                .param("title", "")
+                .param("content", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("posts/form"))
+                .andExpect(model().attributeHasFieldErrors("postRequestDto", "title", "content"));
+    }
+
+    @Test
     void viewUpdateForm() throws Exception {
         // Given && When
         Post post = createPost();
@@ -95,6 +105,21 @@ class PostControllerTest {
                 .param("content", "Updated test content"))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/admin/posts/" +  savedPost.getId()));
+    }
+
+    @Test
+    void givenSavedPostWhenUpdatingPostWithEmptyParamsThenReturnsUpdateFormPage() throws Exception {
+        // Given && When
+        Post savedPost = postRepository.save(createPost());
+
+        // Then
+        mockMvc.perform(post("/admin/posts/" + savedPost.getId() + "/update")
+                .param("title", "")
+                .param("content", ""))
+                .andExpect(status().isOk())
+                .andExpect(view().name("posts/form"))
+                .andExpect(model().attributeHasFieldErrors("postRequestDto", "title", "content"));
+
     }
 
     private Post createPost() {
