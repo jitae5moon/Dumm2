@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>List</title>
+</head>
+<body>
+<h1>List</h1>
+<a th:href="@{/admin/posts/save}">New</a>
+
+<table border="1">
+  <thead>
+  <tr>
+    <th>No</th>
+    <th>Title</th>
+    <th>Created Date</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="post, iter : ${posts.content}">
+    <td th:text="${iter.count}"></td>
+    <td>
+      <a th:href="@{/admin/posts/{id}(id=${post.id})}" th:text="${post.title}"></a>
+    </td>
+    <td th:text="${#temporals.format(post.createdDate, 'yyyy-MM-dd')}"></td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>

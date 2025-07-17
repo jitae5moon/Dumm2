@@ -45,8 +45,10 @@ public class PostController {
     }
 
     @GetMapping("/save")
-    public String saveForm() {
+    public String saveForm(Model model) {
         log.info("PostController :: saveForm()");
+
+        model.addAttribute("post", new PostResponseDto(null, "", "", false, 0, 0, null, null));
 
         return "posts/form";
     }
