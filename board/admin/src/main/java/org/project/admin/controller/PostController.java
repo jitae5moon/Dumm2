@@ -1,5 +1,6 @@
 package org.project.admin.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.project.admin.dto.PostRequestDto;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,8 +52,10 @@ public class PostController {
     }
 
     @PostMapping("/save")
-    public String savePost(PostRequestDto postRequestDto) {
+    public String savePost(@Valid PostRequestDto postRequestDto, BindingResult bindingResult) {
         log.info("PostController :: savePost() :: postRequestDto = {}", postRequestDto);
+
+        if (bindingResult.hasErrors()) return "posts/form";
 
         postService.savePost(postRequestDto);
 
@@ -69,8 +73,14 @@ public class PostController {
     }
 
     @PostMapping("/{id}/update")
-    public String updatePost(@PathVariable Long id, PostRequestDto postRequestDto) {
+    public String updatePost(@PathVariable Long id, @Valid PostRequestDto postRequestDto, BindingResult bindingResult, Model model) {
         log.info("PostController :: updatePost() :: id = {}", id);
+
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("post", postRequestDto);
+
+            return "posts/form";
+        }
 
         postService.updatePost(id, postRequestDto);
 
