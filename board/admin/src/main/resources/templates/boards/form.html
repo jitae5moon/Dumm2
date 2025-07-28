@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="${board.id} != null ? 'Edit Board' : 'New Board'">Board Form</title>
+</head>
+<body>
+<h1 th:text="${board.id} != null ? 'Edit Board' : 'New Board'">Board Form</h1>
+
+<form th:action="${board.id} != null ? @{'/admin/boards/update/' + ${board.id}} : @{/admin/boards/save}"
+      method="post"
+      th:object="${board}">
+
+  <input type="hidden" th:if="${board.id != null}" th:field="*{id}"/>
+
+  <div>
+    <label>Name</label>
+    <input type="text" th:field="*{name}"/>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+  </div>
+
+  <button type="submit">Submit</button>
+  <a th:href="@{/admin/boards}">Cancel</a>
+</form>
+</body>
+</html>

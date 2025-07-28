@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Board List</title>
+</head>
+<body>
+<h1>Board List</h1>
+
+<a th:href="@{/admin/boards/save}">+ New Board</a>
+
+<table>
+  <thead>
+  <tr>
+    <th>No</th>
+    <th>Board Name</th>
+    <th>Created At</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="board, iter : ${boards}">
+    <td th:text="${boards.totalElements - (boards.number * boards.size) - iter.index}">No</td>
+    <td>
+      <a th:href="@{'/admin/boards/' + ${board.id}}" th:text="${board.name}">
+        Name
+      </a>
+    </td>
+    <td th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd')}">2025-07-28</td>
+    <td>
+      <a th:href="@{|/admin/boards/update/${board.id}|}">Edit</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
