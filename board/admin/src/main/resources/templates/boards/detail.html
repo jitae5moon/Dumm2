@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Board Detail</title>
+</head>
+<body>
+<h1>Board Detail</h1>
+
+<form th:object="${board}">
+  <input type="hidden" th:if="${board.id != null}" th:field="*{id}"/>
+
+  <div>
+    <label>Name</label>
+    <input type="text" th:field="*{name}" readonly />
+  </div>
+
+  <a th:href="@{/admin/boards}">List</a>
+</form>
+</body>
+</html>
