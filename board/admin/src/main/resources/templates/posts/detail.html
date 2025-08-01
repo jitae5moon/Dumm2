@@ -7,7 +7,7 @@
 <h1 th:text="${post.title}">Title</h1>
 <p th:text="${post.content}">Content</p>
 
-<a th:href="@{/admin/posts/{id}/update(id=${post.id})}">Modify</a>
+<a th:href="@{/admin/posts/update/{id}(id=${post.id})}">Modify</a>
 <a th:href="@{/admin/posts}">List</a>
 </body>
 </html>
