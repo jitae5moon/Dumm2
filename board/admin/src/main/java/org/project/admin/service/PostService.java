@@ -2,9 +2,11 @@ package org.project.admin.service;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.project.admin.domain.Board;
 import org.project.admin.domain.Post;
 import org.project.admin.dto.PostRequestDto;
 import org.project.admin.dto.PostResponseDto;
+import org.project.admin.repository.BoardRepository;
 import org.project.admin.repository.PostRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,6 +19,7 @@ import java.util.NoSuchElementException;
 @Service
 public class PostService {
 
+    private final BoardRepository boardRepository;
     private final PostRepository postRepository;
 
     public Page<PostResponseDto> getPosts(Pageable pageable) {
@@ -30,6 +33,8 @@ public class PostService {
     }
 
     public Long savePost(PostRequestDto postRequestDto) {
+        Board board = boardRepository.findById(postRequestDto.boardId()).orElseThrow(() -> new NoSuchElementException("No board found with id: " + postRequestDto.boardId()));
+        board.addPost(Post.of(postRequestDto.title(), postRequestDto.content()));
         Post savedPost = postRepository.save(Post.of(postRequestDto.title(), postRequestDto.content()));
 
         return savedPost.getId();
