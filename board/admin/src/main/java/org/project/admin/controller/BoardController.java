@@ -48,7 +48,7 @@ public class BoardController {
     public String saveForm(Model model) {
         log.info("BoardController :: saveForm()");
 
-        model.addAttribute("board", new BoardResponseDto(null, "", "", "", null));
+        model.addAttribute("board", new BoardResponseDto(null, "", "", false, "", null));
 
         return "boards/form";
     }
