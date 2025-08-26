@@ -1,37 +1,65 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Board List</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="layout/base :: head"></head>
 <body>
-<h1>Board List</h1>
+<div th:replace="~{layout/base :: content(~{::section})}">
+  <section>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3 class="mb-0">Boards</h3>
+    <a class="btn btn-primary" href="/admin/boards/save"><i class="bi bi-plus-lg"></i> New Board</a>
+  </div>
 
-<a th:href="@{/admin/boards/save}">+ New Board</a>
-
-<table>
-  <thead>
-  <tr>
-    <th>No</th>
-    <th>Board Name</th>
-    <th>Created At</th>
-    <th>Actions</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="board, iter : ${boards}">
-    <td th:text="${boards.totalElements - (boards.number * boards.size) - iter.index}">No</td>
-    <td>
-      <a th:href="@{'/admin/boards/' + ${board.id}}" th:text="${board.name}">
-        Name
-      </a>
-    </td>
-    <td th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd')}">2025-07-28</td>
-    <td>
-      <a th:href="@{|/admin/boards/update/${board.id}|}">Edit</a>
-    </td>
-  </tr>
-  </tbody>
-</table>
-
+  <div class="card">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle mb-0">
+        <thead class="table-light">
+        <tr>
+          <th style="width:80px;">No</th>
+          <th>Name</th>
+          <th style="width:120px;">Deleted</th>
+          <th style="width:140px;">Created</th>
+          <th style="width:140px;">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="board, it : ${boards.content}">
+          <td th:text="${boards.totalElements - (boards.number * boards.size + it.index)}">1</td>
+          <td>
+            <a th:href="@{/admin/boards/{id}(id=${board.id})}" class="link-primary text-decoration-none" th:text="${board.name}">Board</a>
+            <div class="text-muted small" th:text="${board.description}">Description</div>
+          </td>
+          <td>
+            <span th:if="${board.isDeleted}" class="badge text-bg-danger ms-1">Deleted</span>
+          </td>
+          <td th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd')}">2025-07-22</td>
+          <td>
+            <div class="btn-group btn-group-sm">
+              <a th:href="@{/admin/boards/{id}(id=${board.id})}" class="btn btn-outline-secondary">View</a>
+              <a th:href="@{/admin/boards/update/{id}(id=${board.id})}" class="btn btn-outline-primary">Edit</a>
+            </div>
+          </td>
+        </tr>
+        <tr th:if="${boards.content.isEmpty()}">
+          <td colspan="5" class="text-center text-muted py-4">No boards.</td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer">
+      <nav th:if="${boards.totalPages > 1}">
+        <ul class="pagination justify-content-center mb-0">
+          <li class="page-item" th:classappend="${boards.first} ? 'disabled'">
+            <a class="page-link" th:href="@{/admin/boards(page=${boards.number-1}, size=${boards.size})}">Prev</a>
+          </li>
+          <li class="page-item disabled"><span class="page-link" th:text="${boards.number+1} + ' / ' + ${boards.totalPages}">1/1</span></li>
+          <li class="page-item" th:classappend="${boards.last} ? 'disabled'">
+            <a class="page-link" th:href="@{/admin/boards(page=${boards.number+1}, size=${boards.size})}">Next</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  </section>
+</div>
 </body>
 </html>

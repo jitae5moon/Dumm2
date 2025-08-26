@@ -8,6 +8,7 @@ public record BoardResponseDto(
         Long id,
         String name,
         String description,
+        Boolean isDeleted,
         String createdBy,
         LocalDateTime createdDate
 ) {
@@ -17,6 +18,7 @@ public record BoardResponseDto(
                 board.getId(),
                 board.getName(),
                 board.getDescription(),
+                board.getIsDeleted(),
                 board.getCreatedBy(),
                 board.getCreatedDate()
         );

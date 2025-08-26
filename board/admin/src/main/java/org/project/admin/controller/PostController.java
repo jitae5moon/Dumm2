@@ -64,7 +64,7 @@ public class PostController {
         return "redirect:/admin/posts";
     }
 
-    @GetMapping("/{id}/update")
+    @GetMapping("/update/{id}")
     public String updateForm(@PathVariable Long id, Model model) {
         log.info("PostController :: updateForm() :: id = {}", id);
 
@@ -74,7 +74,7 @@ public class PostController {
         return "posts/form";
     }
 
-    @PostMapping("/{id}/update")
+    @PostMapping("/update/{id}")
     public String updatePost(@PathVariable Long id, @Valid PostRequestDto postRequestDto, BindingResult bindingResult, Model model) {
         log.info("PostController :: updatePost() :: id = {}", id);
 

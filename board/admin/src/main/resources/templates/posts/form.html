@@ -6,7 +6,7 @@
 <body>
 <h1 th:text="${post != null} ? 'Update' : 'New'">Form title</h1>
 
-<form th:action="${post.id != null} ? @{/admin/posts/{id}/update(id=${post.id})} : @{/admin/posts/save}"
+<form th:action="${post.id != null} ? @{/admin/posts/update/{id}(id=${post.id})} : @{/admin/posts/save}"
       th:object="${post}"
       method="post">
   <input type="hidden" th:if="${post != null}" th:field="*{id}"/>

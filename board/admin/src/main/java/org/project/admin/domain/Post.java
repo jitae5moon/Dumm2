@@ -35,6 +35,11 @@ public class Post extends BaseEntity {
     @Setter
     private Boolean isDeleted;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id", nullable = false)
+    @Setter
+    private Board board;
+
     private Post(String title, String content, Boolean isNotice) {
         this.title = title;
         this.content = content;

@@ -8,6 +8,7 @@ public record PostRequestDto(
         String title,
         @NotBlank(message = "Content can't be blank.")
         String content,
-        Boolean isNotice
+        Boolean isNotice,
+        Long boardId
 ) {
 }

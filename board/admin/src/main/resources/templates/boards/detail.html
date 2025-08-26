@@ -1,20 +1,32 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Board Detail</title>
-</head>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head th:replace="~{layout/base :: head}"></head>
 <body>
-<h1>Board Detail</h1>
-
-<form th:object="${board}">
-  <input type="hidden" th:if="${board.id != null}" th:field="*{id}"/>
-
-  <div>
-    <label>Name</label>
-    <input type="text" th:field="*{name}" readonly />
+<div th:replace="~{layout/base :: content(~{::section})}">
+  <section>
+  <div class="d-flex justify-content-between align-items-center">
+    <h3 th:text="${board.name}">Board</h3>
+    <div class="btn-group">
+      <a th:href="@{/admin/boards/update/{id}(id=${board.id})}" class="btn btn-primary btn-sm">Edit</a>
+      <a href="/admin/boards" class="btn btn-outline-secondary btn-sm">List</a>
+    </div>
   </div>
 
-  <a th:href="@{/admin/boards}">List</a>
-</form>
+  <div class="text-muted mb-3">
+    <span th:if="${board.isDeleted}" class="badge text-bg-danger ms-1">Deleted</span>
+    <span class="ms-2">Created:
+      <strong th:text="${#temporals.format(board.createdDate, 'yyyy-MM-dd HH:mm')}">---</strong>
+      by <strong th:text="${board.createdBy}">ADMIN</strong>
+    </span>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <h6 class="text-muted">Description</h6>
+      <div th:utext="${#strings.escapeXml(board.description)?.replaceAll('\n','<br/>')}">-</div>
+    </div>
+  </div>
+  </section>
+</div>
 </body>
 </html>
